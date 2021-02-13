@@ -8,6 +8,6 @@
 #ifndef INC_WEB_SERVER_H_
 #define INC_WEB_SERVER_H_
 
-
+void WebServerInit(void);
 
 #endif /* INC_WEB_SERVER_H_ */

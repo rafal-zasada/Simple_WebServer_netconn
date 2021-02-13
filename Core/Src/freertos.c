@@ -23,6 +23,8 @@
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
+#include "web_server.h"
+#include "GUI_messages.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -118,14 +120,13 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 356);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
 
-  osThreadDef(GUI_task, GUI_taskThread, osPriorityNormal, 0, 2200);
-  osThreadCreate(osThread(GUI_task), NULL);
+
 
   /* USER CODE END RTOS_THREADS */
 
@@ -143,10 +144,14 @@ void StartDefaultTask(void const * argument)
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN StartDefaultTask */
+
+  GUI_init();
+  WebServerInit();
+
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    osDelay(100);
   }
   /* USER CODE END StartDefaultTask */
 }

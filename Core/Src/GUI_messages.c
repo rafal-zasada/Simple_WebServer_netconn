@@ -9,9 +9,18 @@
 #include <string.h>
 #include "lwip.h"
 #include "main.h"
+//#include "cmsis_os.h"
 
-extern struct netif gnetif;
 extern UART_HandleTypeDef huart3;
+extern struct netif gnetif;
+
+void GUI_taskThread(void const * argument);
+
+void GUI_init(void)
+{
+	  osThreadDef(GUI_task, GUI_taskThread, osPriorityNormal, 0, 3500);
+	  osThreadCreate(osThread(GUI_task), NULL);
+}
 
 void GUI_taskThread(void const * argument)
 {
@@ -46,19 +55,14 @@ void vApplicationStackOverflowHook( xTaskHandle xTask, signed char *pcTaskName )
 	osDelay(1000);
 }
 
-// Note: osThreadList shows only used heap memory (inside task) instead of defined stack size. If sum of all defined stack sizes is more than configTOTAL_HEAP_SIZE it will cause problems!
+//  If sum of all defined (used?) stack sizes is more than configTOTAL_HEAP_SIZE it will cause problems!
+// defined stack size is in words, configTOTAL_HEAP_SIZE is in bytes !
 
-// Defined stack sizes (for now):
-// tcpip_thread,  TCPIP_THREAD_STACKSIZE - 1024
-// what about queues ?
-// INTERFACE_THREAD_STACK_SIZE ( 350 )
-// IDLE task - apparently = configMINIMAL_STACK_SIZE - 128
+// https://www.freertos.org/uxTaskGetStackHighWaterMark.html  - check stack usage
 
 /*
 Call xPortGetFreeHeapSize(), create your tasks queues semaphores etc. then call xPortGetFreeHeapSize() again to find the difference. http://www.freertos.org/a00111.html
-Actually, there’s also
-xPortGetMinimumEverFreeHeapSize()
-but only when using heap4
+Actually, there’s also  xPortGetMinimumEverFreeHeapSize() but only when using heap4
 */
 
 
