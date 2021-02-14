@@ -23,11 +23,12 @@
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
-#include "web_server.h"
-#include "GUI_messages.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
+#include "GUI_messages.h"
+#include "web_server.h"
 
 /* USER CODE END Includes */
 
@@ -120,7 +121,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 356);
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */

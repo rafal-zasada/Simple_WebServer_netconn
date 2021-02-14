@@ -18,7 +18,7 @@ void GUI_taskThread(void const * argument);
 
 void GUI_init(void)
 {
-	  osThreadDef(GUI_task, GUI_taskThread, osPriorityNormal, 0, 3500);
+	  osThreadDef(GUI_task, GUI_taskThread, osPriorityNormal, 0, 500);
 	  osThreadCreate(osThread(GUI_task), NULL);
 }
 
