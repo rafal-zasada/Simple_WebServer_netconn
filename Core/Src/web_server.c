@@ -114,18 +114,51 @@ static void http_server_serve(struct netconn *conn) // it is the newconn passed 
           netconn_write(conn, (const unsigned char*)(file.data), (size_t)file.len, NETCONN_NOCOPY);
           fs_close(&file);
         }
-        else if((strncmp(buf, "GET /index.html", 15) == 0)||(strncmp(buf, "GET / ", 6) == 0))
+
+        else if((strncmp(buf, "GET /pic1.jpg", 13) == 0))
         {
-          fs_open(&file, "/index.html");
+          fs_open(&file, "/pic1.jpg");
           netconn_write(conn, (const unsigned char*)(file.data), (size_t)file.len, NETCONN_NOCOPY);
           fs_close(&file);
         }
+
+      else if((strncmp(buf, "GET /index.html", 15) == 0)||(strncmp(buf, "GET / ", 6) == 0))
+      {
+        fs_open(&file, "/index.html");
+        netconn_write(conn, (const unsigned char*)(file.data), (size_t)file.len, NETCONN_NOCOPY);
+        fs_close(&file);
+      }
+
+
+
         else if (strncmp((char const *)buf,"GET /data1", 10) == 0)
         {
-          const char my_data[] = "Zasada AAAA";
-          netconn_write(conn, (const unsigned char*)(my_data), strlen(my_data) + 1, NETCONN_NOCOPY);
-          fs_close(&file);
+        	char JSON_data[200] = {0};
+        	int voltage1 = 233;
+        	int voltage2 = 223;
+        	int voltage3 = 255;
+
+        	snprintf(JSON_data, sizeof(JSON_data),  "{\"voltage1\" : \"%d\","
+        											"\"voltage2\" : \"%d\","
+        											"\"voltage3\" : \"%d\""
+        											"}", voltage1, voltage2, voltage3);
+
+            netconn_write(conn, (const unsigned char*)(JSON_data), strlen(JSON_data), NETCONN_NOCOPY);
+            fs_close(&file);
+
+      	snprintf(JSON_data, sizeof(JSON_data), "%s\n", JSON_data);
+      	HAL_UART_Transmit(&huart3, (unsigned char*)&JSON_data , strlen(JSON_data) + 1, 300);
+
+      	char test[20] = "Test";
+
+    	snprintf(GUI_buffer, sizeof(test), "%s\n", test);
+    	HAL_UART_Transmit(&huart3, (unsigned char*)&test , strlen(test) + 1, 300);
+
+
         }
+
+
+
         else
         {
           fs_open(&file, "/404.html");
