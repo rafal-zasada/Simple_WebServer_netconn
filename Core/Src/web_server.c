@@ -86,7 +86,7 @@ static void http_server_serve(struct netconn *conn) // it is the newconn passed 
 
       netbuf_data(inbuf, (void**)&buf, &buflen);
 
-    	snprintf(GUI_buffer, sizeof(GUI_buffer), "\n\nbuflen = %d\n", buflen);
+    /*	snprintf(GUI_buffer, sizeof(GUI_buffer), "\n\nbuflen = %d\n", buflen);
     	HAL_UART_Transmit(&huart3, (unsigned char*)&GUI_buffer , strlen(GUI_buffer) + 1, 300);
 
     	snprintf(GUI_buffer, sizeof(GUI_buffer), "\nString in GUI size =  %d\n", sizeof(GUI_buffer));
@@ -94,6 +94,7 @@ static void http_server_serve(struct netconn *conn) // it is the newconn passed 
 
   	snprintf(GUI_buffer, sizeof(GUI_buffer), "\n %s  ", buf);
   	HAL_UART_Transmit(&huart3, (unsigned char*)&GUI_buffer , strlen(GUI_buffer) + 1, 300);
+  	*/
 
       /* Is this an HTTP GET command? (only check the first 5 chars, since
       there are other formats for GET, and we're keeping it very simple )*/
@@ -111,6 +112,9 @@ static void http_server_serve(struct netconn *conn) // it is the newconn passed 
         else if (strncmp((char const *)buf,"GET /cs/styles.css", 18) == 0)
         {
           fs_open(&file, "/cs/styles.css");
+
+      //    Content-Type: text/css
+
           netconn_write(conn, (const unsigned char*)(file.data), (size_t)file.len, NETCONN_NOCOPY);
           fs_close(&file);
         }
@@ -143,16 +147,24 @@ static void http_server_serve(struct netconn *conn) // it is the newconn passed 
         											"\"voltage3\" : \"%d\""
         											"}", voltage1, voltage2, voltage3);
 
-            netconn_write(conn, (const unsigned char*)(JSON_data), strlen(JSON_data), NETCONN_NOCOPY);
-            fs_close(&file);
+        	char header1_and_JSON_data[300] = 	"HTTP/1.1 200 OK\r\n"
+        										"Content-Type: text/html\r\n"
+        										"Access-Control-Allow-Origin:* \r\n" 	// allow access for other clients than from within this webserver
+        									//	"Content-Length : 20\r\n"				// not necessary, length will be established in other way
+        										"\r\n";  								// second\r\n mandatory to mark end of header!
+        									//	"Connection: keep-alive \r\n";
 
-      	snprintf(JSON_data, sizeof(JSON_data), "%s\n", JSON_data);
-      	HAL_UART_Transmit(&huart3, (unsigned char*)&JSON_data , strlen(JSON_data) + 1, 300);
+        	strcat(header1_and_JSON_data, JSON_data);
 
-      	char test[20] = "Test";
+            netconn_write(conn, (const unsigned char*)(header1_and_JSON_data), strlen(header1_and_JSON_data), NETCONN_NOCOPY);
 
-    	snprintf(GUI_buffer, sizeof(test), "%s\n", test);
-    	HAL_UART_Transmit(&huart3, (unsigned char*)&test , strlen(test) + 1, 300);
+      //	snprintf(header1_and_JSON_data, sizeof(header1_and_JSON_data), "%s\n", header1_and_JSON_data);
+      	HAL_UART_Transmit(&huart3, (unsigned char*)&header1_and_JSON_data , strlen(header1_and_JSON_data) + 1, 300);
+
+     // 	char test[20] = "Test";
+
+    //	snprintf(GUI_buffer, sizeof(test), "%s\n", test);
+    //	HAL_UART_Transmit(&huart3, (unsigned char*)&test , strlen(test) + 1, 300);
 
 
         }
