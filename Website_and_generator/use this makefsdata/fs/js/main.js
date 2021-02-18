@@ -6,20 +6,18 @@ let voltage3_ReadValue = 333;
 let myRequest1 = new XMLHttpRequest();
 
 myRequest1.open('GET', 'http://192.168.0.36/data1');
-//myRequest1.open('GET', 'https://learnwebcode.github.io/json-example/animals-1.json');
-
 
 myRequest1.onload = function() {
-   // let serverData1 = JSON.parse(myRequest1.responseText);
+    let serverDataParsed = JSON.parse(myRequest1.responseText);
     let serverData2 = myRequest1.responseText;
 
-    
+    console.log(serverDataParsed);
     console.log(serverData2); 
     console.log("test"); 
 
-    //voltage1_ReadValue = serverData1.voltage1;
-    //voltage2_ReadValue = serverData1.voltage2;
-    //voltage3_ReadValue = serverData1.voltage3;
+    //voltage1_ReadValue = serverDataParsed.voltage1;
+    //voltage2_ReadValue = serverDataParsed.voltage2;
+    //voltage3_ReadValue = serverDataParsed.voltage3;
 
     let voltage1DOM = document.getElementById('voltage1');
     voltage1DOM.innerText = "Voltage read from STM32 = " + voltage1_ReadValue;

@@ -48,7 +48,7 @@
 
 /* USER CODE BEGIN PV */
 
-char GUI_buffer[500] = {0};
+
 
 /* USER CODE END PV */
 

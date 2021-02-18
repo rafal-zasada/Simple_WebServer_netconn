@@ -146,7 +146,7 @@ void StartDefaultTask(void const * argument)
   MX_LWIP_Init();
   /* USER CODE BEGIN StartDefaultTask */
 
-  GUI_init();
+  GUI_start();
   WebServerInit();
 
   /* Infinite loop */

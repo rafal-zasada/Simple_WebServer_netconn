@@ -11,12 +11,14 @@
 #include "main.h"
 //#include "cmsis_os.h"
 
+char GUI_buffer[500] = {0};
+
 extern UART_HandleTypeDef huart3;
 extern struct netif gnetif;
 
 void GUI_taskThread(void const * argument);
 
-void GUI_init(void)
+void GUI_start(void)
 {
 	  osThreadDef(GUI_task, GUI_taskThread, osPriorityNormal, 0, 500);
 	  osThreadCreate(osThread(GUI_task), NULL);

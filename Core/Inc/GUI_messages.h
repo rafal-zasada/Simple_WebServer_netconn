@@ -8,7 +8,9 @@
 #ifndef INC_GUI_MESSAGES_H_
 #define INC_GUI_MESSAGES_H_
 
-extern char GUI_buffer[500];
-void GUI_init(void);
+#define GUI_BUFFER_SIZE 500
+
+extern char GUI_buffer[GUI_BUFFER_SIZE];
+void GUI_start(void);
 
 #endif /* INC_GUI_MESSAGES_H_ */
