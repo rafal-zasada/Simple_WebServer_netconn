@@ -15,3 +15,8 @@ h1{
 .hide-me {
     visibility: hidden;
 }
+
+div {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 5px;
+}

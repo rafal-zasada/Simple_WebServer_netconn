@@ -11,7 +11,7 @@
 #include "main.h"
 //#include "cmsis_os.h"
 
-char GUI_buffer[500] = {0};
+char GUI_buffer[GUI_BUFFER_SIZE] = {0};
 
 extern UART_HandleTypeDef huart3;
 extern struct netif gnetif;

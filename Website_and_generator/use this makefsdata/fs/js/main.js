@@ -1,23 +1,15 @@
 
-//let myData1;
-let voltage1_ReadValue = 111;
-let voltage2_ReadValue = 222;
-let voltage3_ReadValue = 333;
-let myRequest1 = new XMLHttpRequest();
+let getVoltages = new XMLHttpRequest(); // to receive data
 
-myRequest1.open('GET', 'http://192.168.0.36/data1');
-
-myRequest1.onload = function() {
-    let serverDataParsed = JSON.parse(myRequest1.responseText);
-    let serverData2 = myRequest1.responseText;
+getVoltages.onload = function () {
+    let serverDataParsed = JSON.parse(getVoltages.responseText);
+    let serverData2 = getVoltages.responseText;
 
     console.log(serverDataParsed);
-    console.log(serverData2); 
-    console.log("test"); 
 
-    //voltage1_ReadValue = serverDataParsed.voltage1;
-    //voltage2_ReadValue = serverDataParsed.voltage2;
-    //voltage3_ReadValue = serverDataParsed.voltage3;
+    let voltage1_ReadValue = serverDataParsed.voltage1;
+    let voltage2_ReadValue = serverDataParsed.voltage2;
+    let voltage3_ReadValue = serverDataParsed.voltage3;
 
     let voltage1DOM = document.getElementById('voltage1');
     voltage1DOM.innerText = "Voltage read from STM32 = " + voltage1_ReadValue;
@@ -28,6 +20,30 @@ myRequest1.onload = function() {
     let voltage3DOM = document.getElementById('voltage3');
     voltage3DOM.innerText = "Voltage read from STM32 = " + voltage3_ReadValue;
 }
-myRequest1.send();
 
+let count = 1;
+let intervalID = setInterval(readVoltages, 500);
+
+function readVoltages() {
+    getVoltages.open('GET', 'http://192.168.0.36/data1');
+    getVoltages.send();
+
+    console.log(count++);
+
+    if (count > 1) {
+        clearInterval(intervalID);
+    }
+}
+
+let postInstruction = new XMLHttpRequest(); // to send data
+
+postInstruction.onload = function () {
+    console.log("onload called after AJAX POST request");
+}
+
+postInstruction.open('POST', 'http://192.168.0.36');
+//postInstruction.setRequestHeader("Access-Control-Allow-Origin:*");
+postInstruction.send("Rafal message Bloody hell sgdfgdfgsdgdfsgdsfgdsgfgdfg");
+
+console.log(window.location.host); // log address of server (HTTP)
 
