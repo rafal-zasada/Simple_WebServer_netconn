@@ -9,7 +9,7 @@
 #include <string.h>
 #include "lwip.h"
 #include "main.h"
-//#include "cmsis_os.h"
+#include "cmsis_os.h"
 
 char GUI_buffer[GUI_BUFFER_SIZE] = {0};
 

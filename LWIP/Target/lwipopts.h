@@ -91,6 +91,10 @@
 #define RECV_BUFSIZE_DEFAULT 2000000000
 /*----- Default Value for LWIP_HTTPD: 0 ---*/
 #define LWIP_HTTPD 1
+/*----- Default Value for LWIP_HTTPD_SSI_BY_FILE_EXTENSION: 1 ---*/
+#define LWIP_HTTPD_SSI_BY_FILE_EXTENSION 0
+/*----- Default Value for LWIP_HTTPD_SSI_INCLUDE_TAG: 1 ---*/
+#define LWIP_HTTPD_SSI_INCLUDE_TAG 0
 /*----- Value in opt.h for HTTPD_USE_CUSTOM_FSDATA: 0 -----*/
 #define HTTPD_USE_CUSTOM_FSDATA 1
 /*----- Value in opt.h for LWIP_STATS: 1 -----*/

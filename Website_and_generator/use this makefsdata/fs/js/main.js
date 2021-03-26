@@ -22,7 +22,7 @@ getVoltages.onload = function () {
 }
 
 let count = 1;
-let intervalID = setInterval(readVoltages, 500);
+let intervalID = setInterval(readVoltages, 100);
 
 function readVoltages() {
     getVoltages.open('GET', 'http://192.168.0.36/data1');
@@ -30,7 +30,7 @@ function readVoltages() {
 
     console.log(count++);
 
-    if (count > 1) {
+    if (count > 20) {
         clearInterval(intervalID);
     }
 }
@@ -42,7 +42,7 @@ postInstruction.onload = function () {
 }
 
 postInstruction.open('POST', 'http://192.168.0.36');
-//postInstruction.setRequestHeader("Access-Control-Allow-Origin:*");
+//postInstruction.setRequestHeader("Access-Control-Allow-Origin:*"); // not needed
 postInstruction.send("Rafal message Bloody hell sgdfgdfgsdgdfsgdsfgdsgfgdfg");
 
 console.log(window.location.host); // log address of server (HTTP)

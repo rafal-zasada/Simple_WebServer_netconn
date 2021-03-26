@@ -146,11 +146,11 @@ static void http_server_serve(struct netconn *conn) // new connection service
 
 					// below
 						char *responseToPOST = 	"HTTP/1.1 200 OK\r\n"
-												"Content-Type: text/html\r\n"
-												"Access-Control-Allow-Origin:* \r\n" 	// allow access for other clients than from within this webserver
+											//	"Content-Type: text/html\r\n"			// do I need this in this response?
+												"Access-Control-Allow-Origin:* \r\n" 	// allow access for other clients (when request address and webserver address don't match)
 												"\r\n";
 
-						netconn_write(conn, (const unsigned char*)responseToPOST, strlen(responseToPOST), NETCONN_NOCOPY);
+						netconn_write(conn, (signed char*)responseToPOST, strlen(responseToPOST), NETCONN_NOCOPY);
 					}
 				}
 		}
