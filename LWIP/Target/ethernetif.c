@@ -564,10 +564,19 @@ err_t ethernetif_init(struct netif *netif)
 {
   LWIP_ASSERT("netif != NULL", (netif != NULL));
 
-#if LWIP_NETIF_HOSTNAME
+// #if LWIP_NETIF_HOSTNAME
+//  /* Initialize interface hostname */
+//  netif->hostname = "lwip";
+// #endif /* LWIP_NETIF_HOSTNAME */
+
+
+#include "netbiosns.h"
+
   /* Initialize interface hostname */
-  netif->hostname = "lwip";
-#endif /* LWIP_NETIF_HOSTNAME */
+  netif->hostname = "lwip00";
+  netbiosns_init();
+  	netbiosns_set_name(netif->hostname);  //  (can I place it somwhere else and not modify ethernetif.c?)
+
 
   netif->name[0] = IFNAME0;
   netif->name[1] = IFNAME1;

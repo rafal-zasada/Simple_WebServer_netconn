@@ -11,6 +11,10 @@
 #include "GUI_messages.h"
 #include "string.h"
 
+
+//#include "netbiosns.h"
+
+
 extern UART_HandleTypeDef huart3;
 
 static void WebServerThread(void *arg);
